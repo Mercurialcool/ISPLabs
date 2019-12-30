@@ -1,0 +1,108 @@
+﻿@model EditUserModel
+@{
+    ViewData["Title"] = Localizer["Users"];
+}
+<div class="modal fade" id="edit_user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@Localizer["Edit user"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="javascript:void(0);" onsubmit="editUser()">
+                <div class="modal-body">
+                    <div class="validation" id="errors"></div>
+                    <div class="form-group row">
+                        <label asp-for="Id" class="control-label col-lg-2">Id</label>
+                        <div class="col-lg-10">
+                            <input readonly type="text" asp-for="Id" class="form-control form-control-sm" />
+                            <span class="small" asp-validation-for="Id" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Role" class="control-label col-lg-2">@Localizer["Role"]</label>
+                        <div class="col-lg-10">
+                            <select asp-for="Role" asp-items="ViewBag.Roles" class="form-control form-control-sm"></select>
+                            <span class="small" asp-validation-for="Role" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Login" class="control-label col-lg-2">@Localizer["Login"]</label>
+                        <div class="col-lg-10">
+                            <input type="text" asp-for="Login" class="form-control form-control-sm" />
+                            <span class="small" asp-validation-for="Login" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Email" class="control-label col-lg-2">@Localizer["Email"]</label>
+                        <div class="col-lg-10">
+                            <input type="text" asp-for="Email" class="form-control form-control-sm" />
+                            <span class="small" asp-validation-for="Email" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="Password" class="control-label col-lg-2">@Localizer["Password"]</label>
+                        <div class="col-lg-10">
+                            <input type="text" asp-for="Password" class="form-control form-control-sm" />
+                            <span class="small" asp-validation-for="Password" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@Localizer["Close"]</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="request_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@SharedLocalizer["Confirm"]</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    @Localizer["Do you really want to delete"] '<i id="deleting_user"></i>' @Localizer["user"]?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@SharedLocalizer["Yes"]</button>
+                <button type="button" id="deleteUserBtn" class="btn btn-primary">@SharedLocalizer["No"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="shadow mt-30" style="height:100%">
+    <div class="p-10 bg-light font-weight-bold">
+        @Localizer["Users"] <i style="font-weight:300; color:gray" id="counter"></i>
+    </div>
+    <div id="load_bar" class="bar" style="text-align: center;">
+        <i class="sphere"></i>
+        <span class="small" style="font-weight: 300;">@SharedLocalizer["Please wait"]</span>
+    </div>
+    <table id ="users_table" class="table collapse">
+        <thead class="bg-light">
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">@Localizer["Role"]</th>
+                <th scope="col">@Localizer["Login"]</th>
+                <th scope="col">@Localizer["Email"]</th>
+                <th scope="col">@Localizer["Password"]</th>
+                <th scope="col">@Localizer["RegistrationDate"]</th>
+                <th scope="col">@Localizer["Actions"]</th>
+            </tr>
+        </thead>
+        <tbody id="users"></tbody>
+    </table>
+</div>
+@section PageScripts {
+    <script src="~/js/users.js"></script>
+}
